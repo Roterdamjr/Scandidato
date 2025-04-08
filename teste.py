@@ -1,12 +1,32 @@
+from funcoes_db_curriculo import fn_busca_curriculo_db,fn_busca_curriculos_db
+from funcoes_db_analise import fn_exclui_analise_db
+from funcoes_prompt import fn_busca_opiniao,fn_busca_resumo, fn_gerar_score
+from google import genai
 import os
-import sys
 
-def fn_busca_cargo():
-    #db = TinyDB('cargos.json')
+def resumo():
+    nome_selecionado ="Bart Rabelo - Curriculum Vitae (EN)"
 
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(sys.argv[0])))
-    db_path = os.path.join(base_path, "cargos.json")
-    return db_path
+    curriculo = fn_busca_curriculo_db(nome_selecionado)
+    prompt = fn_busca_resumo(curriculo)
+    resumo = fn_gera_response(prompt)
 
-print(fn_busca_cargo())
+def fn_gera_response(prompt):
+        client = genai.Client(api_key=os.getenv("API_KEY"))
+        response_text = ""
+        try:
+            print("Analisando")
+            response = client.models.generate_content_stream(
+                model="gemini-2.0-flash",
+                contents=[prompt]
+            )
+            for chunk in response:
+                response_text += chunk.text
+            return response_text
+        except Exception as e:
+            print("Erro")
+            return None
+
+
+resumo()
     

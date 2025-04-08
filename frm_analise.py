@@ -6,6 +6,7 @@ from tkinter import ttk
 from tkinter import filedialog
 import json
 import os
+from google import genai
 
 class TelaAnaliseCurriculo:
 
@@ -57,33 +58,26 @@ class TelaAnaliseCurriculo:
 
         curriculo = fn_busca_curriculo_db(nome_selecionado)
         prompt = fn_busca_resumo(curriculo)
-        resumo = fn_gera_response(prompt)
+        resumo = self.fn_gera_response(prompt)
 
-        if curriculo:
-            conteudo = curriculo.get("content", "")
-            # Aqui você colocaria sua lógica de análise do currículo
-            # Para este exemplo, vamos apenas preencher os campos com informações básicas
-
-            # Simulação de análise
-            resumo_simulado = f"Resumo do currículo de {nome_selecionado}..."
-            opiniao_simulada = "Parece um candidato interessante..."
-            nota_simulada = "7.5"
-
-            self.text_resumo.delete("1.0", tk.END)
-            self.text_resumo.insert(tk.END, resumo_simulado)
-
-            self.text_opiniao.delete("1.0", tk.END)
-            self.text_opiniao.insert(tk.END, opiniao_simulada)
-
-            self.text_nota.delete("1.0", tk.END)
-            self.text_nota.insert(tk.END, nota_simulada)
-        else:
-            self.text_resumo.delete("1.0", tk.END)
-            self.text_resumo.insert(tk.END, "Currículo não encontrado.")
-            self.text_opiniao.delete("1.0", tk.END)
-            self.text_opiniao.insert(tk.END, "")
-            self.text_nota.delete("1.0", tk.END)
-            self.text_nota.insert(tk.END, "")
+        self.text_resumo.delete("1.0", tk.END)
+        #self.text_resumo.insert(tk.END, resumo)
+        
+    def fn_gera_response(prompt):
+        client = genai.Client(api_key=os.getenv("API_KEY"))
+        response_text = ""
+        try:
+            print("Analisando")
+            response = client.models.generate_content_stream(
+                model="gemini-2.0-flash",
+                contents=[prompt]
+            )
+            for chunk in response:
+                response_text += chunk.text
+            return response_text
+        except Exception as e:
+            print("Erro")
+            return None
 
 if __name__ == "__main__":
     root = tk.Tk()

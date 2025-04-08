@@ -1,5 +1,5 @@
 
-from funcoes_db_cargo import fn_exclui_cargos,fn_insere_cargo,fn_busca_cargo
+from funcoes_db_cargo import fn_exclui_cargos,fn_insere_cargo, fn_busca_cargo
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import messagebox

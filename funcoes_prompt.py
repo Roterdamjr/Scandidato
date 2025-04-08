@@ -1,5 +1,6 @@
 
 import os
+from google import genai
 
 def fn_busca_resumo(curriculo):
     text = '''
@@ -73,17 +74,3 @@ Ao final indique a pontuação final com o seguinte formato "Nota final do candi
     text += 'Vaga que o candidato está se candidatando' + job
     return text
 
-def fn_gera_response(prompt):
-    client = genai.Client(api_key=os.getenv("API_KEY"))
-    response_text = ""
-    try:
-        response = client.models.generate_content_stream(
-            model="gemini-2.0-flash",
-            contents=[prompt]
-        )
-        for chunk in response:
-            response_text += chunk.text
-        return response_text
-    except Exception as e:
-        st.error(f"Erro ao gerar resposta da IA: {e}")
-        return None
