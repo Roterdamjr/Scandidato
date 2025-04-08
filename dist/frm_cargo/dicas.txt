@@ -1,0 +1,1 @@
+ pyinstaller --add-data "cargos.json:." frm_cargo.py
