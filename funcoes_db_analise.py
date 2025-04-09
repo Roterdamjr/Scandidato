@@ -1,4 +1,5 @@
 from tinydb import TinyDB, Query
+import re
  
 def fn_inserir_analise_db(nome, resumo,opiniao,nota,):
     db = TinyDB('analises.json')

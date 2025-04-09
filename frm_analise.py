@@ -1,3 +1,4 @@
+
 from funcoes_db_curriculo import fn_busca_curriculo_db,fn_busca_curriculos_db
 from funcoes_db_analise import fn_exclui_analise_db,fn_inserir_analise_db, fn_exclui_analises_db
 from funcoes_db_cargo import fn_busca_job
@@ -28,10 +29,11 @@ class TelaAnaliseCurriculo:
         self.combo_curriculos.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
         self.combo_curriculos.set(self.nomes_curriculos[0] if self.nomes_curriculos else "") # Define o primeiro como padrão
 
-        # Botão "Analisar"
         self.botao_analisar = tk.Button(master, text="Analisar", command=self.analisar_curriculo)
         self.botao_analisar.grid(row=0, column=2, padx=10, pady=10, sticky="w")
 
+        self.botao_limpar = tk.Button(master, text="Limpar Análises", command=self.limpar_analises)
+        self.botao_limpar.grid(row=0, column=3, padx=10, pady=10, sticky="w")
 
         # Text Areas
         self.label_resumo = tk.Label(master, text="Resumo:")
@@ -43,18 +45,17 @@ class TelaAnaliseCurriculo:
         self.label_opiniao.grid(row=2, column=0, padx=10, pady=5, sticky="nw")
         self.text_opiniao = tk.Text(master, height=5, width=50)
         self.text_opiniao.grid(row=2, column=1, columnspan=2, padx=10, pady=5, sticky="nsew")
-
+        
         self.label_nota = tk.Label(master, text="Nota:")
         self.label_nota.grid(row=3, column=0, padx=10, pady=5, sticky="nw")
-        self.text_nota = tk.Text(master, height=5, width=10)
-        self.text_nota.grid(row=3, column=1, padx=10, pady=10, sticky="w")
+        self.text_nota = tk.Text(master, height=5, width=50) # Aumentei o width para corresponder aos outros inicialmente
+        self.text_nota.grid(row=3, column=1, columnspan=2, padx=10, pady=5, sticky="nsew") # Alterei columnspan e sticky
 
         # Configurar o gerenciamento de redimensionamento das linhas e colunas
         master.grid_columnconfigure(1, weight=1)
         master.grid_columnconfigure(2, weight=1)
         master.grid_rowconfigure(1, weight=1)
         master.grid_rowconfigure(2, weight=1)
-
 
     def analisar_curriculo(self):
         load_dotenv()
@@ -82,21 +83,7 @@ class TelaAnaliseCurriculo:
 
 
     def limpar_analises(self):
-         # Limpar as text areas
-        self.text_resumo.delete("1.0", tk.END)
-        self.text_opiniao.delete("1.0", tk.END)
-        self.text_nota.delete("1.0", tk.END)
-
-        # Ler novamente os currículos do arquivo
-        self.curriculos = fn_busca_curriculos_db()
-        self.nomes_curriculos = [c for c in self.curriculos]
-
-        # Atualizar a combobox
-        self.combo_curriculos['values'] = self.nomes_curriculos
-        if self.nomes_curriculos:
-            self.combo_curriculos.set(self.nomes_curriculos[0])
-        else:
-            self.combo_curriculos.set("") # Limpa a seleção se não houver currículos
+        fn_exclui_analises_db()
 
     
 if __name__ == "__main__":
