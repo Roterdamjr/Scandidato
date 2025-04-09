@@ -1,32 +1,24 @@
-from funcoes_db_curriculo import fn_busca_curriculo_db,fn_busca_curriculos_db
-from funcoes_db_analise import fn_exclui_analise_db
-from funcoes_prompt import fn_busca_opiniao,fn_busca_resumo, fn_gerar_score
+from dotenv import load_dotenv
 from google import genai
-import os
-
-def resumo():
-    nome_selecionado ="Bart Rabelo - Curriculum Vitae (EN)"
-
-    curriculo = fn_busca_curriculo_db(nome_selecionado)
-    prompt = fn_busca_resumo(curriculo)
-    resumo = fn_gera_response(prompt)
-
-def fn_gera_response(prompt):
-        client = genai.Client(api_key=os.getenv("API_KEY"))
-        response_text = ""
-        try:
-            print("Analisando")
-            response = client.models.generate_content_stream(
-                model="gemini-2.0-flash",
-                contents=[prompt]
-            )
-            for chunk in response:
-                response_text += chunk.text
-            return response_text
-        except Exception as e:
-            print("Erro")
-            return None
+from funcoes_prompt import fn_busca_resumo,  fn_busca_opiniao,fn_gerar_score,fn_gera_response
+from funcoes_db_curriculo import   fn_busca_curriculo_db
+from funcoes_db_cargo import fn_busca_job
+import os 
 
 
-resumo()
-    
+
+
+load_dotenv()
+
+
+curriculo = fn_busca_curriculo_db('Bart')
+prompt = fn_busca_resumo(curriculo)
+resumo = fn_gera_response(prompt)
+print(resumo)
+ 
+        
+     
+
+
+
+

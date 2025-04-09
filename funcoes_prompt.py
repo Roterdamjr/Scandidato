@@ -2,6 +2,22 @@
 import os
 from google import genai
 
+def fn_gera_response(prompt):
+    client = genai.Client(api_key=os.getenv("API_KEY"))
+    response_text = ""
+    try:
+        print("Analisando")
+        response = client.models.generate_content_stream(
+            model="gemini-2.0-flash",
+            contents=[prompt]
+        )
+        for chunk in response:
+            response_text += chunk.text
+        return response_text
+    except Exception as e:
+        print("Erro")
+        return None
+
 def fn_busca_resumo(curriculo):
     text = '''
               "Objetivo:** Avaliar um currículo com base em uma vaga específica e calcular a pontuação final. A nota máxima é 10.0.
