@@ -1,0 +1,4 @@
+
+pyinstaller scandidato.py  --add-data "*.json:." --add-data "*.py:."
+
+

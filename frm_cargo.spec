@@ -5,7 +5,7 @@ a = Analysis(
     ['frm_cargo.py'],
     pathex=[],
     binaries=[],
-    datas=[('cargos.json', '.')],
+    datas=[('cargos.json', '.'), ('frm_cargo.py', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
