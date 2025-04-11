@@ -19,6 +19,7 @@ def fn_busca_job():
     db = TinyDB("cargos.json") 
     dados = db.storage.read()
 
+    output=''
     if dados:
         dados = db.all()  # Pega todos os registros corretamente
         for vaga in dados:
@@ -26,17 +27,20 @@ def fn_busca_job():
 
             prerequisitos = vaga.get("prerequisitos", [])
             prerequisitos = [p.strip("',") for p in prerequisitos]
-
+            output += fn_quebra_linhas('prerequisitos', prerequisitos)
+            
             diferenciais = vaga.get("diferenciais", [])
             diferenciais = [p.strip("',") for p in diferenciais]
+            output += fn_quebra_linhas('diferenciais', diferenciais)
 
             principais_atividades = vaga.get("principais_atividades", [])
             principais_atividades = [p.strip("',") for p in principais_atividades]
+            output += fn_quebra_linhas('principais_atividades', principais_atividades)
 
     else:
-        print("Nenhuma vaga encontrada no banco de dados.")
+        output = "Nenhuma vaga encontrada no banco de dados."
 
-    return fn_quebra_linhas('prerequisitos', prerequisitos) + fn_quebra_linhas('diferenciais',diferenciais) + fn_quebra_linhas('principais_atividades',principais_atividades)
+    return output
 
 
 def fn_busca_cargo():
