@@ -6,25 +6,27 @@ import os
 class CurriculoApp:
     @staticmethod
     def main():
-        root = tk.Toplevel()
-        app = CurriculoApp(root)
-        root.mainloop()
+        master = tk.Toplevel()
+        app = CurriculoApp(master)
+        master.mainloop()
 
     def __init__(self, master):
         self.master = master
         master.title("Cadastro de Currículos")
+        self.create_widgets()
 
+    def create_widgets(self):
         self.candidatos = []  # Lista para armazenar os nomes dos candidatos
 
         # Botão para fazer upload do currículo
-        self.upload_button = tk.Button(master, text="Inserir Currículo", command=self.upload_curriculo)
+        self.upload_button = tk.Button(self.master, text="Inserir Currículo", command=self.upload_curriculo)
         self.upload_button.pack(pady=10)
 
-        self.delete_button = tk.Button(master, text="Limpar Lista", command=self.limpar_lista)
+        self.delete_button = tk.Button(self.master, text="Limpar Lista", command=self.limpar_lista)
         self.delete_button.pack(pady=10)
 
         # Frame para a grade de candidatos
-        self.grade_frame = ttk.Frame(master)
+        self.grade_frame = ttk.Frame(self.master)
         self.grade_frame.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
         # Treeview para exibir os nomes dos candidatos
@@ -70,6 +72,6 @@ class CurriculoApp:
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = CurriculoApp(root)
-    root.mainloop()
+    master = tk.Tk()
+    app = CurriculoApp(master)
+    master.mainloop()
