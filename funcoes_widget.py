@@ -3,16 +3,16 @@ def configurar_botao(tela):
     button_fg_color = 'white'
 
     tela.style.configure(
-        "GravarButton.TButton",
+        "BotaoPersonalizado.TButton",
         background=button_bg_color,
         foreground=button_fg_color,
         font=('Segoe UI', 10, 'bold')
     )
 
     tela.style.map(
-            "GravarButton.TButton",
+            "BotaoPersonalizado.TButton",
             background=[('active', '#0000cc')],  # Azul mais escuro quando o botão é pressionado
             foreground=[('disabled', 'gray')]
     )
 
-    tela.style.configure("GravarButton.TButton", background=button_bg_color, foreground=button_fg_color)
+    tela.style.configure("BotaoPersonalizado.TButton", background=button_bg_color, foreground=button_fg_color)

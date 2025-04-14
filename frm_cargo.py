@@ -51,7 +51,7 @@ class CargoApp:
         self.txt_diferenciais.grid(row=3, column=1, padx=5, pady=5, sticky="nsew")
 
         # Botão Gravar com o estilo personalizado
-        btn_gravar = ttk.Button(self.master, text="Gravar", command=self.gravar_dados, style="GravarButton.TButton")
+        btn_gravar = ttk.Button(self.master, text="Gravar", command=self.gravar_dados, style="BotaoPersonalizado.TButton")
         btn_gravar.grid(row=4, column=0, columnspan=2, padx=5, pady=10)
 
         # Configurar o gerenciamento de layout para redimensionamento
