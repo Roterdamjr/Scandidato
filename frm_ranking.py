@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
-from funcoes_db_analise import fn_busca_nomes_analisados_db,fn_busca_nota_final
+from funcoes_db_analise import fn_busca_nomes_analisados_db,fn_busca_nota_final,fn_busca_nomes_analisados_db
 from funcoes_widget import configurar_botao
+
 
 class RankingApp:
     
@@ -13,10 +14,24 @@ class RankingApp:
 
     def __init__(self, master):
         self.master = master
-        master.title("Resultados da Análise")
-        self.create_widgets()
+        master.title("Análise de Currículos")
+        self.master.config(bg='gray70')  # Cor de fundo da janela
+        self.master.geometry("700x500") 
+
+        self.style = ttk.Style()
+        self.style.theme_use('clam')  # Isso permite customizar fundo e texto
         
     def create_widgets(self):
+        self.exibir_ranking()
+
+        lista = fn_busca_nomes_analisados_db()
+        self.analises = [c for c in lista]
+        self.combo = ttk.Combobox(self.master, values=self.analises, state="readonly")
+        self.combo.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
+        self.combo.set(self.analises[0] if self.analises else "") # Define o primeiro como padrão
+
+
+    def exibir_ranking(self):
         nomes_analisados = fn_busca_nomes_analisados_db()
 
         self.data = []
@@ -42,12 +57,7 @@ class RankingApp:
         # Adiciona a Treeview à janela
         self.tree.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
-        # Adiciona um botão "Fechar"
-        self.botao_fechar = tk.Button(self.master, text="Fechar", command=self.master.destroy)
-        self.botao_fechar.pack(pady=10)
-
-
 if __name__ == "__main__":
-    master = tk.Tk()
-    app = RankingApp(master)
-    master.mainloop()
+    root = tk.Tk()
+    app = RankingApp(root)
+    root.mainloop()
